@@ -1,0 +1,112 @@
+REV. 3 STRUCTURAL CUBE SOLVER - VERIFICATION / AUDIT REPORT
+==============================================================================
+
+1. SCOPE AND ANALYSIS LIMITATION
+------------------------------------------------------------------------------
+Rev. 3 defines, applies, validates, combines and visualizes loads.
+It does NOT perform stiffness analysis, support reactions, member forces,
+displacements, drift, or diaphragm constraint elimination.
+The load viewer is a verification layer, not proof of solved structural behavior.
+
+2. MODEL / DATABASE SOURCE
+------------------------------------------------------------------------------
+Source model: existing cube_6m_Rev2.py (left unchanged).
+Standard geometry: 8 nodes, 12 members; roof nodes 5-8; roof beams M5-M8.
+Material label: A36 Gr.36
+Section label: W6X9
+
+3. LOAD CASES LC1-LC8
+------------------------------------------------------------------------------
+LC1: DEAD / SELF WEIGHT | type=Dead Load | nodes=[] | members=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] | total=9.582357 kN | error=-20.232643 kN
+LC2: ROOF DEAD | type=Dead Load | nodes=[] | members=[5, 6, 7, 8] | total=120.000000 kN | error=0.000000 kN
+LC3: ROOF LIVE | type=Live Load | nodes=[] | members=[5, 6, 7, 8] | total=72.000000 kN | error=0.000000 kN
+LC4: ROOF BEAM CENTER LOAD | type=Member Point Load | nodes=[] | members=[5, 6, 7, 8] | total=20.000000 kN | error=0.000000 kN
+LC5: WIND X | type=Wind | nodes=[5, 6, 7, 8] | members=[] | total=10.000000 kN | error=0.000000 kN
+LC6: WIND Z | type=Wind | nodes=[5, 6, 7, 8] | members=[] | total=10.000000 kN | error=0.000000 kN
+LC7: SEISMIC X | type=Seismic | nodes=[5, 6, 7, 8] | members=[] | total=15.000000 kN | error=0.000000 kN
+LC8: SEISMIC Z | type=Seismic | nodes=[5, 6, 7, 8] | members=[] | total=15.000000 kN | error=0.000000 kN
+Step 3 hard problems: NONE
+
+4. ROOF DIAPHRAGM
+------------------------------------------------------------------------------
+Master node: N5
+Slave nodes: [6, 7, 8]
+Constrained DOFs: ['UX', 'UZ', 'RY']
+Free DOFs: ['UY', 'RX', 'RZ']
+Constraint equations: 9
+Constraint elimination: NOT performed in Rev. 3
+
+5. LOAD CASE 9 - TEMPERATURE
+------------------------------------------------------------------------------
+Delta T: +15 degC
+Alpha from Rev. 2 material data: 11.7 x 1e-6/degC
+Thermal strain: 1.755000e-04
+Free expansion (6 m): 1.053000 mm
+EA from active Rev. 2 section: 345715.784 kN
+Fully restrained force: 60.673120 kN compression
+Partial restraint: INDETERMINATE (no stiffness/constraint solution in Rev. 3)
+Thermal vector net force: {'FX': 0.0, 'FY': 0.0, 'FZ': 0.0}
+Temperature is represented as a thermal strain/equivalent thermal vector, not a fake nodal force.
+
+6. LOAD COMBINATIONS
+------------------------------------------------------------------------------
+Number generated: 30
+NSCP note: factors are the handout transcription identified as NSCP 2015; the handout states they were NOT independently verified against the printed code and must be checked against §§203.3.1 and 203.4.1 before design use.
+COMB1: LRFD | LRFD 1.4D | {'LC1': 1.4}
+COMB2: LRFD | LRFD 1.2D + 1.6L | {'LC1': 1.2, 'LC3': 1.6}
+COMB3: LRFD | LRFD 1.2D + 1.0W_X + 1.0L | {'LC1': 1.2, 'LC5': 1.0, 'LC3': 1.0}
+COMB4: LRFD | LRFD 1.2D + 1.0W_Z + 1.0L | {'LC1': 1.2, 'LC6': 1.0, 'LC3': 1.0}
+COMB5: LRFD | LRFD 1.2D + 1.0E_X + 1.0L | {'LC1': 1.2, 'LC7': 1.0, 'LC3': 1.0}
+COMB6: LRFD | LRFD 1.2D + 1.0E_Z + 1.0L | {'LC1': 1.2, 'LC8': 1.0, 'LC3': 1.0}
+COMB7: LRFD | LRFD 0.9D + 1.0W_X | {'LC1': 0.9, 'LC5': 1.0}
+COMB8: LRFD | LRFD 0.9D + 1.0W_Z | {'LC1': 0.9, 'LC6': 1.0}
+COMB9: LRFD | LRFD 0.9D + 1.0E_X | {'LC1': 0.9, 'LC7': 1.0}
+COMB10: LRFD | LRFD 0.9D + 1.0E_Z | {'LC1': 0.9, 'LC8': 1.0}
+COMB11: LRFD | LRFD 1.2D + 1.0W_X + 1.0L | {'LC1': 1.2, 'LC5': 1.0, 'LC3': 1.0}
+COMB12: LRFD | LRFD 1.2D + 1.0W_Z + 1.0L | {'LC1': 1.2, 'LC6': 1.0, 'LC3': 1.0}
+COMB13: ASD | ASD D + L | {'LC1': 1.0, 'LC3': 1.0}
+COMB14: ASD | ASD D + W_X | {'LC1': 1.0, 'LC5': 1.0}
+COMB15: ASD | ASD D + W_Z | {'LC1': 1.0, 'LC6': 1.0}
+COMB16: ASD | ASD D + E_X | {'LC1': 1.0, 'LC7': 1.0}
+COMB17: ASD | ASD D + E_Z | {'LC1': 1.0, 'LC8': 1.0}
+COMB18: ASD | ASD D + L + W_X | {'LC1': 1.0, 'LC3': 1.0, 'LC5': 1.0}
+COMB19: ASD | ASD D + L + W_Z | {'LC1': 1.0, 'LC3': 1.0, 'LC6': 1.0}
+COMB20: ASD | ASD D + L + E_X | {'LC1': 1.0, 'LC3': 1.0, 'LC7': 1.0}
+COMB21: ASD | ASD D + L + E_Z | {'LC1': 1.0, 'LC3': 1.0, 'LC8': 1.0}
+COMB22: ASD | ASD D + W_X | {'LC1': 1.0, 'LC5': 1.0}
+COMB23: ASD | ASD D + W_Z | {'LC1': 1.0, 'LC6': 1.0}
+COMB24: ASD | ASD D + L + W_X + E_X | {'LC1': 1.0, 'LC3': 1.0, 'LC5': 1.0, 'LC7': 1.0}
+COMB25: ASD | ASD D + L + W_Z + E_Z | {'LC1': 1.0, 'LC3': 1.0, 'LC6': 1.0, 'LC8': 1.0}
+COMB26: ASD | ASD 0.9D + W_X | {'LC1': 0.9, 'LC5': 1.0}
+COMB27: LRFD | LRFD 1.2D + 1.0T | {'LC1': 1.2, 'LC9': 1.0}
+COMB28: LRFD | LRFD 0.9D + 1.0T | {'LC1': 0.9, 'LC9': 1.0}
+COMB29: ASD | ASD D + T | {'LC1': 1.0, 'LC9': 1.0}
+COMB30: ASD | ASD D + L + T | {'LC1': 1.0, 'LC3': 1.0, 'LC9': 1.0}
+
+7. VIEWER / IMAGE OUTPUTS
+------------------------------------------------------------------------------
+Load-case images: rev3_load_case_1.png through rev3_load_case_9.png
+Representative combination images: rev3_combination_1.png and rev3_combination_13.png
+Distributed-load bands are optional drawing only; load glyph data are unchanged by the band toggle.
+LC9 viewer uses degC and expansion-direction annotation, never kN for temperature.
+
+8. AUTOMATED TESTS
+------------------------------------------------------------------------------
+Test summary: Run test_cube_solver_rev3.py for the 95-test suite
+
+9. KNOWN ASSUMPTIONS / DISCLOSED DIFFERENCES
+------------------------------------------------------------------------------
+The handout Appendix A benchmark uses W310X38.7 beams, W250X49.1 columns and A992 steel.
+The active Rev. 2 baseline currently supplies its own database-selected material/section properties.
+Rev. 3 therefore does not silently substitute the Appendix A standard section set.
+
+10. FINAL ENGINEERING STATUS
+------------------------------------------------------------------------------
+Load definitions: implemented
+Load validation: implemented
+Diaphragm definition/equations: implemented; not eliminated into stiffness equations
+Temperature load effect: implemented as thermal strain/equivalent vector; no solved restraint response
+Combinations: implemented as references/factors; no structural analysis
+Viewer: implemented for inspection
+STIFFNESS SOLVER: OUT OF SCOPE FOR REV. 3
+==============================================================================
